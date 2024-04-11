@@ -1,9 +1,9 @@
-void sprinti(char *str,unsigned long int a,int digits)
+void sprinti(char *str,unsigned long long int a,int digits)
 {
-	unsigned long int n;
+	unsigned long long int n;
 	int d,l,sl;
 	char buf[20];
-	n=10000000000000000000;
+	n=10000000000000000000ULL;
 	d=20;
 	while(n>a&&d>digits)
 	{
