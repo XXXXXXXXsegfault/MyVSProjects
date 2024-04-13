@@ -92,7 +92,9 @@ int main(int argc,char **argv)
 	}
 	ext2fs_init(dev_name);
 	current_dir=2;
-	puts("NOTE!!! You should always close this program by entering \"exit\".\nClosing this program improperly may cause data corruption.");
+	puts("NOTE!!! You should always close this program by entering \"exit\",\n\
+NOT through the \'X\' button or Ctrl-C.\n\
+Closing this program improperly may cause data corruption.");
 	puts("Please press any key to continue.");
 	getch();
 	puts("Type \"help\" for available commands.");

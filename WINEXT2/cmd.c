@@ -97,7 +97,7 @@ struct cmd_ls_sort
 void cmd_ls(int argc,char **argv)
 {
 	struct ext2_file *dir,*file;
-	long off;
+	long long off;
 	char buf[4096];
 	struct ext2_directory *dirent;
 	struct cmd_ls_sort *list,*list_node,*p,*cur;
@@ -315,9 +315,9 @@ int pull_file(char *src,char *dst)
 {
 	void *buf;
 	struct ext2_file *file;
-	unsigned int inode,n;
+	unsigned int inode;
 	void *fp;
-	long off;
+	long long off,n;
 	char buf2[256];
 	
 	if(ext2_search_path(current_dir,src,&inode))
@@ -611,7 +611,7 @@ int push_file(char *src,char *dst)
 		free(buf);
 		return 0;
 	}
-	long off,n;
+	long long off,n;
 	off=0;
 	while(n=fread(buf,1,65536,fp))
 	{
@@ -648,11 +648,11 @@ struct file_inode_tab
 	unsigned int pad;
 	struct file_inode_tab *next;
 };
-long file_space_usage(unsigned int inode,struct file_inode_tab **tab,unsigned int *inodes)
+long long file_space_usage(unsigned int inode,struct file_inode_tab **tab,unsigned int *inodes)
 {
 	struct file_inode_tab *node;
 	struct ext2_file *file;
-	long size;
+	long long size;
 	node=tab[inode%1021];
 	while(node)
 	{
@@ -685,7 +685,7 @@ long file_space_usage(unsigned int inode,struct file_inode_tab **tab,unsigned in
 	if((file->inode.mode&0170000)==040000)
 	{
 		struct ext2_directory *dirent;
-		long off,size1;
+		long long off,size1;
 		dirent=malloc(4096);
 		if(dirent==NULL)
 		{
@@ -722,7 +722,7 @@ void cmd_du(int argc,char **argv)
 	}
 	struct file_inode_tab *tab[1021],*node;
 	unsigned int inodes,inode,x;
-	long size;
+	long long size;
 	char buf[32];
 	memset(tab,0,sizeof(tab));
 	if(ext2_search_path(current_dir,argv[1],&inode))
@@ -781,7 +781,7 @@ int remove_file(unsigned int inode)
 	if((file->inode.mode&0170000)==040000)
 	{
 		struct ext2_directory *dirent;
-		long off;
+		long long off;
 		char buf[256];
 		unsigned int x;
 		int val;
@@ -1004,7 +1004,7 @@ void cmd_move(int argc,char **argv)
 		
 		--dir->inode.links;
 		++newdir->inode.links;
-		long off;
+		long long off;
 		off=0;
 		while(off=ext2_readdir(file,off,dirent))
 		{
